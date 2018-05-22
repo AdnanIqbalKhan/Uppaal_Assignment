@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.1//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_2.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+chan open_Motorway,open_G11, open_ZerpPoint, open_NUST;</declaration>
+	<template>
+		<name x="5" y="5">RoadNust</name>
+		<declaration>// Place local declarations here.
+clock t;</declaration>
+		<location id="id0" x="119" y="-51">
+			<name x="136" y="-59">Green</name>
+			<label kind="invariant" x="68" y="-59">t&lt;=60</label>
+		</location>
+		<location id="id1" x="-102" y="-51">
+			<name x="-144" y="-59">Red</name>
+		</location>
+		<init ref="id0"/>
+		<transition>
+			<source ref="id1"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-42" y="8">open_NUST?</label>
+			<label kind="assignment" x="-8" y="34">t=0</label>
+			<nail x="-102" y="34"/>
+			<nail x="119" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="guard" x="68" y="-127">t==60</label>
+			<label kind="synchronisation" x="-51" y="-153">open_Motorway!</label>
+			<label kind="assignment" x="-84" y="-127">t=0</label>
+			<nail x="119" y="-127"/>
+			<nail x="-102" y="-127"/>
+		</transition>
+	</template>
+	<template>
+		<name>RoadG11</name>
+		<declaration>// Place local declarations here.
+clock t;</declaration>
+		<location id="id2" x="119" y="-51">
+			<name x="136" y="-59">Green</name>
+			<label kind="invariant" x="68" y="-59">t&lt;=60</label>
+		</location>
+		<location id="id3" x="-102" y="-51">
+			<name x="-144" y="-59">Red</name>
+		</location>
+		<init ref="id3"/>
+		<transition>
+			<source ref="id3"/>
+			<target ref="id2"/>
+			<label kind="synchronisation" x="-42" y="8">open_G11?</label>
+			<label kind="assignment" x="-8" y="34">t=0</label>
+			<nail x="-102" y="34"/>
+			<nail x="119" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id2"/>
+			<target ref="id3"/>
+			<label kind="guard" x="68" y="-127">t==60</label>
+			<label kind="synchronisation" x="-51" y="-153">open_ZerpPoint!</label>
+			<label kind="assignment" x="-84" y="-127">t=0</label>
+			<nail x="119" y="-127"/>
+			<nail x="-102" y="-127"/>
+		</transition>
+	</template>
+	<template>
+		<name>RoadMotorway</name>
+		<declaration>// Place local declarations here.
+clock t;</declaration>
+		<location id="id4" x="119" y="-51">
+			<name x="136" y="-59">Green</name>
+			<label kind="invariant" x="68" y="-59">t&lt;=60</label>
+		</location>
+		<location id="id5" x="-102" y="-51">
+			<name x="-144" y="-59">Red</name>
+		</location>
+		<init ref="id5"/>
+		<transition>
+			<source ref="id5"/>
+			<target ref="id4"/>
+			<label kind="synchronisation" x="-42" y="8">open_Motorway?</label>
+			<label kind="assignment" x="-8" y="34">t=0</label>
+			<nail x="-102" y="34"/>
+			<nail x="119" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id4"/>
+			<target ref="id5"/>
+			<label kind="guard" x="68" y="-127">t==60</label>
+			<label kind="synchronisation" x="-51" y="-153">open_G11!</label>
+			<label kind="assignment" x="-84" y="-127">t=0</label>
+			<nail x="119" y="-127"/>
+			<nail x="-102" y="-127"/>
+		</transition>
+	</template>
+	<template>
+		<name>RoadZeropoint</name>
+		<declaration>// Place local declarations here.
+clock t;</declaration>
+		<location id="id6" x="119" y="-51">
+			<name x="136" y="-59">Green</name>
+			<label kind="invariant" x="68" y="-59">t&lt;=60</label>
+		</location>
+		<location id="id7" x="-102" y="-51">
+			<name x="-144" y="-59">Red</name>
+		</location>
+		<init ref="id7"/>
+		<transition>
+			<source ref="id7"/>
+			<target ref="id6"/>
+			<label kind="synchronisation" x="-42" y="8">open_ZerpPoint?</label>
+			<label kind="assignment" x="-8" y="34">t=0</label>
+			<nail x="-102" y="34"/>
+			<nail x="119" y="34"/>
+		</transition>
+		<transition>
+			<source ref="id6"/>
+			<target ref="id7"/>
+			<label kind="guard" x="68" y="-127">t==60</label>
+			<label kind="synchronisation" x="-51" y="-153">open_NUST!</label>
+			<label kind="assignment" x="-84" y="-127">t=0</label>
+			<nail x="119" y="-127"/>
+			<nail x="-102" y="-127"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+
+// List one or more processes to be composed into a system.
+system RoadNust, RoadMotorway, RoadG11, RoadZeropoint;
+    </system>
+	<queries>
+		<query>
+			<formula>E&lt;&gt; RoadG11.Green
+			</formula>
+			<comment>Bounded liveness
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; RoadZeropoint.Green
+			</formula>
+			<comment>Bounded liveness
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; RoadMotorway.Green
+			</formula>
+			<comment>Bounded liveness
+			</comment>
+		</query>
+		<query>
+			<formula>E&lt;&gt; RoadNust.Green
+			</formula>
+			<comment>Bounded liveness
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not deadlock
+			</formula>
+			<comment>Deadlock avoidance
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not(RoadNust.Red and RoadG11.Red and RoadMotorway.Red and RoadZeropoint.Red)
+			</formula>
+			<comment>Deadlock avoidance
+			</comment>
+		</query>
+		<query>
+			<formula>A[] not(RoadNust.Green and RoadG11.Green and RoadMotorway.Green and RoadZeropoint.Green)
+			</formula>
+			<comment>Mutex Property
+			</comment>
+		</query>
+	</queries>
+</nta>
